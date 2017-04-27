@@ -7,7 +7,7 @@ ENV QT_BUILD %QT_VERSION_BUILD%
 
 RUN apt-get update -y \
   && apt-get install -y software-properties-common \
-  && add-apt-repository ppa:beineri/opt-qt${QT_MAJOR}${QT_MINOR}-$(lsb_release -sc) \
+  && add-apt-repository ppa:beineri/opt-qt${QT_MAJOR}${QT_MINOR}${QT_BUILD}-$(lsb_release -sc) \
   && apt-get update \
   && apt-get install -y qt${QT_MAJOR}${QT_MINOR}-meta-full \
   && rm -rf /var/lib/apt/lists/* \
