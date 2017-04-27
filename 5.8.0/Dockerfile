@@ -11,6 +11,6 @@ RUN apt-get update -y \
   && apt-get update \
   && apt-get install -y qt${QT_MAJOR}${QT_MINOR}-meta-full \
   && rm -rf /var/lib/apt/lists/* \
-  && source /opt/qt${QT_MAJOR}${QT_MINOR}/bin/qt${QT_MAJOR}${QT_MINOR}-env.sh
+  && . /opt/qt${QT_MAJOR}${QT_MINOR}/bin/qt${QT_MAJOR}${QT_MINOR}-env.sh
 
 CMD ["qmake","--version"]
