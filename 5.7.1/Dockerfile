@@ -14,4 +14,6 @@ RUN apt-get update -y \
   && cp /opt/qt${QT_MAJOR}${QT_MINOR}/bin/qt${QT_MAJOR}${QT_MINOR}-env.sh /etc/profile.d/qt.sh \
   && chmod +x /etc/profile.d/qt.sh
 
+RUN . /etc/profile
+
 CMD ["qmake","--version"]
