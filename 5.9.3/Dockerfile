@@ -1,9 +1,9 @@
-FROM %BASE_IMAGE%
+FROM ubuntu:xenial
 MAINTAINER André Nishitani <atoshio25@gmail.com>
 
-ENV QT_MAJOR %QT_VERSION_MAJOR%
-ENV QT_MINOR %QT_VERSION_MINOR%
-ENV QT_BUILD %QT_VERSION_BUILD%
+ENV QT_MAJOR 5
+ENV QT_MINOR 9
+ENV QT_BUILD 3
 
 RUN apt-get update -y \
   && apt-get install -y software-properties-common \

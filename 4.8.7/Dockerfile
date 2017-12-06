@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 MAINTAINER André Nishitani <atoshio25@gmail.com>
 
 ENV QT_MAJOR 4
@@ -11,6 +11,7 @@ RUN apt-get update -y \
   && apt-get update \
   && apt-get install -y qt${QT_MAJOR}${QT_MINOR}-meta-full \
   && rm -rf /var/lib/apt/lists/* \
-  && echo ". /opt/qt${QT_MAJOR}${QT_MINOR}/bin/qt${QT_MAJOR}${QT_MINOR}-env.sh" >> /etc/profile
+  && cp /opt/qt${QT_MAJOR}${QT_MINOR}/bin/qt${QT_MAJOR}${QT_MINOR}-env.sh /etc/profile.d/qt.sh \
+  && chmod +x /etc/profile.d/qt.sh
 
 CMD ["qmake","--version"]
