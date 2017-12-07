@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_IMAGE=("python:2.7-alpine")
+BASE_IMAGE=("python:2.7-slim")
 QT_VERSION=("486" "571" "580" "593")
 
 for VERSION in "${QT_VERSION[@]}"

@@ -1,4 +1,4 @@
-FROM python:2.7-alpine
+FROM python:2.7-slim
 MAINTAINER André Nishitani <atoshio25@gmail.com>
 
 ARG N_JOBS=1
@@ -16,7 +16,8 @@ ENV QT_FILE qt-everywhere-opensource-src-${QT_VERSION}.tar.xz
 
 ENV QT_URL http://download.qt.io/archive/qt/${QT_MAJOR}.${QT_MINOR}/${QT_VERSION}/single/$QT_FILE
 
-RUN apk add --no-cache wget gcc cmake make g++ zlib-dev perl linux-headers \
+# RUN apk add --no-cache wget gcc cmake make g++ zlib-dev perl linux-headers \
+RUN apt-get update && apt-get install -y wget build-essential perl \
     && cd /tmp \
     && wget -nc $QT_URL \
     && tar xf ${QT_FILE} \
@@ -30,7 +31,8 @@ RUN apk add --no-cache wget gcc cmake make g++ zlib-dev perl linux-headers \
         -nomake examples \
         -no-opengl \
     && make -j${N_JOBS} && make install \
-    && rm -r /tmp/qt-everywhere-opensource-src-${QT_MAJOR}.${QT_MINOR}.${QT_BUILD}*
+    && rm -r /tmp/qt-everywhere-opensource-src-${QT_MAJOR}.${QT_MINOR}.${QT_BUILD}* \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /
 
