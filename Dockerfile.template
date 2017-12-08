@@ -17,7 +17,9 @@ ENV QT_FILE %QT_FILE%
 ENV QT_URL %QT_URL%
 
 # RUN apk add --no-cache wget gcc cmake make g++ zlib-dev perl linux-headers \
-RUN apt-get update && apt-get install -y wget build-essential perl \
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        wget build-essential perl libgl1-mesa-dev \
     && cd /tmp \
     && wget -nc $QT_URL \
     && tar xf ${QT_FILE} \
@@ -29,7 +31,8 @@ RUN apt-get update && apt-get install -y wget build-essential perl \
         -shared \
         -no-qml-debug \
         -nomake examples \
-        -no-opengl \
+        -opengl \
+        -qt-xcb \
     && make -j${N_JOBS} && make install \
     && rm -r /tmp/qt-everywhere-opensource-src-${QT_MAJOR}.${QT_MINOR}.${QT_BUILD}* \
     && rm -rf /var/lib/apt/lists/*
