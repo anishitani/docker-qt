@@ -25,14 +25,7 @@ RUN apt-get update \
     && tar xf ${QT_FILE} \
     && cd /tmp/qt-everywhere-opensource-src-${QT_MAJOR}.${QT_MINOR}.${QT_BUILD} \
     && ./configure -prefix /opt/Qt/${QT_MAJOR}.${QT_MINOR}.${QT_BUILD} \
-        -release \
-        -opensource \
-        -confirm-license \
-        -shared \
-        -no-qml-debug \
-        -nomake examples \
-        -opengl \
-        -qt-xcb \
+        %QT_OPTIONS%
     && make -j${N_JOBS} && make install \
     && rm -r /tmp/qt-everywhere-opensource-src-${QT_MAJOR}.${QT_MINOR}.${QT_BUILD}* \
     && rm -rf /var/lib/apt/lists/*

@@ -1,7 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 BASE_IMAGE=("python:2.7-slim")
-QT_VERSION=("486" "571" "580" "593")
+QT_VERSION=("464" "486" "571" "580" "593")
+
+declare -A QT_OPTIONS
+QT_OPTIONS["464"]="-release -opensource -confirm-license -shared -nomake examples -opengl"
+QT_OPTIONS["486"]=${QT_OPTIONS["464"]}
+QT_OPTIONS["571"]="-release -opensource -confirm-license -shared -no-qml-debug -nomake examples -opengl -qt-xcb"
+QT_OPTIONS["580"]=${QT_OPTIONS["571"]}
+QT_OPTIONS["593"]=${QT_OPTIONS["571"]}
 
 for VERSION in "${QT_VERSION[@]}"
 do
@@ -23,6 +30,7 @@ do
     | sed -e "s@\%QT_VERSION_MINOR\%@${VERSION:1:1}@" \
     | sed -e "s@\%QT_VERSION_BUILD\%@${VERSION:2:1}@" \
     | sed -e "s@\%QT_FILE\%@$QT_FILE@" \
-    | sed -e "s@\%QT_URL\%@$QT_URL@" > $FOLDER/Dockerfile
-    echo "Qt v$VERSION [ UPDATED ]"
+    | sed -e "s@\%QT_URL\%@$QT_URL@" \
+    | sed -e "s@\%QT_OPTIONS\%@${QT_OPTIONS["486"]}@" > $FOLDER/Dockerfile
+    echo "Qt v$VERSION [ UPDATED ] with ${QT_OPTIONS[$VERSION]}"
 done
