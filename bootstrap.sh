@@ -13,13 +13,16 @@ QT_OPTIONS["593"]=${QT_OPTIONS["571"]}
 for VERSION in "${QT_VERSION[@]}"
 do
     QT_FILE='qt-everywhere-opensource-src-${QT_VERSION}'
-    QT_URL='http://download.qt.io/archive/qt/${QT_MAJOR}.${QT_MINOR}/${QT_VERSION}'
+    QT_URL='http://download.qt.io/archive/qt/${QT_MAJOR}.${QT_MINOR}'
     FOLDER="${VERSION:0:1}.${VERSION:1:1}.${VERSION:2:1}"
     mkdir -p $FOLDER
     if [ ${VERSION:0:1} -gt 4 ]
     then
         QT_FILE=${QT_FILE}".tar.xz"
         QT_URL=$QT_URL'/single/$QT_FILE'
+    elif [ ${VERSION:0:2} -gt 46 ]
+        QT_FILE=$QT_FILE".tar.gz"
+        QT_URL=$QT_URL'/${QT_VERSION}/$QT_FILE'
     else
         QT_FILE=$QT_FILE".tar.gz"
         QT_URL=$QT_URL'/$QT_FILE'
