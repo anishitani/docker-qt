@@ -5,13 +5,13 @@ defaults: &workdir
 version: 2
 
 jobs:
-    checkout:
-      <<: *workdir
-      steps:
-        - checkout
-        - run: pip install Jinja2
-        - run: python bootstrap.py
-        - persist_to_workspace:
+  checkout:
+    <<: *workdir
+    steps:
+      - checkout
+      - run: pip install Jinja2
+      - run: python bootstrap.py
+      - persist_to_workspace:
           root: .
           paths:
             - 4.5.3
@@ -19,60 +19,60 @@ jobs:
             - 5.7.1
             - 5.8.0
             - 5.9.3
-    login_docker:
-      <<: *workdir
-      steps:
-        - rnu: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
-    build_453:
+  login_docker:
+    <<: *workdir
+    steps:
+      - rnu: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+  build_453:
+    <<: *workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
+  build_486:
       <<: *workdir
       steps:
         - attach_workspace:
             at: .
-        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
-    build_486:
-        <<: *workdir
-        steps:
-          - attach_workspace:
-              at: .
-          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
-    build_571:
-        <<: *workdir
-        steps:
-          - attach_workspace:
-              at: .
-          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
-    build_580:
-        <<: *workdir
-        steps:
-          - attach_workspace:
-              at: .
-          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
-    build_593:
-        <<: *workdir
-        steps:
-          - attach_workspace:
-              at: .
-          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
-    deploy_453:
-        <<: *workdir
-        steps:
-          - run: docker push anishitani/docker-qt:4.5.3
-    deploy_486:
-        <<: *workdir
-        steps:
-          - run: docker push anishitani/docker-qt:4.8.6
-    deploy_571:
-        <<: *workdir
-        steps:
-          - run: docker push anishitani/docker-qt:5.7.1
-    deploy_580:
-        <<: *workdir
-        steps:
-          - run: docker push anishitani/docker-qt:5.8.0
-    deploy_593:
-        <<: *workdir
-        steps:
-          - run: docker push anishitani/docker-qt:5.9.3
+        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
+  build_571:
+      <<: *workdir
+      steps:
+        - attach_workspace:
+            at: .
+        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
+  build_580:
+      <<: *workdir
+      steps:
+        - attach_workspace:
+            at: .
+        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
+  build_593:
+      <<: *workdir
+      steps:
+        - attach_workspace:
+            at: .
+        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
+  deploy_453:
+      <<: *workdir
+      steps:
+        - run: docker push anishitani/docker-qt:4.5.3
+  deploy_486:
+      <<: *workdir
+      steps:
+        - run: docker push anishitani/docker-qt:4.8.6
+  deploy_571:
+      <<: *workdir
+      steps:
+        - run: docker push anishitani/docker-qt:5.7.1
+  deploy_580:
+      <<: *workdir
+      steps:
+        - run: docker push anishitani/docker-qt:5.8.0
+  deploy_593:
+      <<: *workdir
+      steps:
+        - run: docker push anishitani/docker-qt:5.9.3
 
 
 workflows:
