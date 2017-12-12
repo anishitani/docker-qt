@@ -4,6 +4,7 @@ jobs:
         machine: true
         steps:
           - checkout
+          - run: pip install Jinja2
           - run: python bootstrap.py
     login_docker:
         machine: true
