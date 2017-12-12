@@ -1,34 +1,56 @@
+defaults: &workdir
+  working_directory: ~/workspace
+  machine: true
+
 version: 2
+
 jobs:
     checkout:
-        machine: true
-        steps:
-          - checkout
-          - run: pip install Jinja2
-          - run: python bootstrap.py
+      <<: *workdir
+      steps:
+        - checkout
+        - run: pip install Jinja2
+        - run: python bootstrap.py
+        - persist_to_workspace:
+          root: .
+          paths:
+            - 4.5.3
+            - 4.8.6
+            - 5.7.1
+            - 5.8.0
+            - 5.9.3
     login_docker:
-        machine: true
-        steps:
-          - rnu: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+      steps:
+        - rnu: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
     build_453:
-        machine: true
-        steps:
-          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
+      <<: *workdir
+      steps:
+        - attach_workspace:
+            at: .
+        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
     build_486:
-        machine: true
+        <<: *workdir
         steps:
+          - attach_workspace:
+              at: .
           - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
     build_571:
-        machine: true
+        <<: *workdir
         steps:
+          - attach_workspace:
+              at: .
           - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
     build_580:
-        machine: true
+        <<: *workdir
         steps:
+          - attach_workspace:
+              at: .
           - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
     build_593:
-        machine: true
+        <<: *workdir
         steps:
+          - attach_workspace:
+              at: .
           - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
     deploy_453:
         machine: true
