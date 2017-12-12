@@ -12,23 +12,23 @@ jobs:
     build_453:
         machine: true
         steps:
-          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
+          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
     build_486:
         machine: true
         steps:
-          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
+          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
     build_571:
         machine: true
         steps:
-          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
+          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
     build_580:
         machine: true
         steps:
-          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
+          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
     build_593:
         machine: true
         steps:
-          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
+          - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
     deploy_453:
         machine: true
         steps:
@@ -80,16 +80,16 @@ workflows:
             - build_593
       - deploy_453:
           requires:
-            - login
+            - login_docker
       - deploy_486:
           requires:
-            - login
+            - login_docker
       - deploy_571:
           requires:
-            - login
+            - login_docker
       - deploy_580:
           requires:
-            - login
+            - login_docker
       - deploy_593:
           requires:
-            - login
+            - login_docker
