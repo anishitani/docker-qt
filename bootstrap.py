@@ -76,22 +76,26 @@ def main():
         ),
         VersionConfiguration(
             version=Version(4,8,6),
-            options="-release -opensource -confirm-license -shared -nomake examples -nomke demos -opengl",
+            dependencies="build-essential wget libgl1-mesa-dev libglu1-mesa-dev",
+            options="-release -opensource -confirm-license -shared -nomake examples -nomake demos -opengl",
             url="https://download.qt.io/archive/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz"
         ),
         VersionConfiguration(
             version=Version(5,7,1),
-            options="-release -opensource -confirm-license -shared -nomake examples -nomke demos -opengl",
+            dependencies="build-essential wget libgl1-mesa-dev libglu1-mesa-dev",
+            options="-release -opensource -confirm-license -shared -no-qml-debug -nomake examples -opengl -qt-xcb",
             url="https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.gz"
         ),
         VersionConfiguration(
             version=Version(5,8,0),
-            options="-release -opensource -confirm-license -shared -nomake examples -nomke demos -opengl",
+            dependencies="build-essential wget libgl1-mesa-dev libglu1-mesa-dev",
+            options="-release -opensource -confirm-license -shared -no-qml-debug -nomake examples -opengl -qt-xcb",
             url="https://download.qt.io/archive/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.tar.xz"
         ),
         VersionConfiguration(
             version=Version(5,9,3),
-            options="-release -opensource -confirm-license -shared -nomake examples -nomke demos -opengl",
+            dependencies="build-essential wget libgl1-mesa-dev libglu1-mesa-dev",
+            options="-release -opensource -confirm-license -shared -no-qml-debug -nomake examples -opengl -qt-xcb",
             url="https://download.qt.io/archive/qt/5.9/5.9.3/single/qt-everywhere-opensource-src-5.9.3.tar.xz"
         )
     ]

@@ -18,12 +18,12 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         {{ QT_DEPENDENCIES }} \
     && cd /tmp \
-    && wget -nc {{ QT_URL }} \
+    && wget -nv -nc {{ QT_URL }} \
     && tar xf {{ QT_FILE }} \
     && cd /tmp/{{ QT_SOURCE_FOLDER }} \
     && ./configure -prefix /opt/Qt/{{ QT_VERSION }} \
-        {{ QT_BUILD_OPTIONS }}
-    && make -j${N_JOBS} && make install \
+        {{ QT_BUILD_OPTIONS }} \
+    && make -j $N_JOBS && make install \
     && rm -r /tmp/{{ QT_SOURCE_FOLDER }}* \
     && rm -rf /var/lib/apt/lists/*
 

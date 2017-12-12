@@ -1,0 +1,95 @@
+version: 2
+jobs:
+    checkout:
+        machine: true
+        steps:
+          - checkout
+          - run: python bootstrap.py
+    login_docker:
+        machine: true
+        steps:
+          - rnu: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+    build_453:
+        machine: true
+        steps:
+          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
+    build_486:
+        machine: true
+        steps:
+          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
+    build_571:
+        machine: true
+        steps:
+          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
+    build_580:
+        machine: true
+        steps:
+          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
+    build_593:
+        machine: true
+        steps:
+          - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
+    deploy_453:
+        machine: true
+        steps:
+          - run: docker push anishitani/docker-qt:4.5.3
+    deploy_486:
+        machine: true
+        steps:
+          - run: docker push anishitani/docker-qt:4.8.6
+    deploy_571:
+        machine: true
+        steps:
+          - run: docker push anishitani/docker-qt:5.7.1
+    deploy_580:
+        machine: true
+        steps:
+          - run: docker push anishitani/docker-qt:5.8.0
+    deploy_593:
+        machine: true
+        steps:
+          - run: docker push anishitani/docker-qt:5.9.3
+
+
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - checkout
+      - build_453:
+          requires:
+            - checkout
+      - build_486:
+          requires:
+            - checkout
+      - build_571:
+          requires:
+            - checkout
+      - build_580:
+          requires:
+            - checkout
+      - build_593:
+          requires:
+            - checkout
+      - loing:
+          requires:
+            - build_453
+            - build_486
+            - build_571
+            - build_580
+            - build_593
+      - deploy_453:
+          requires:
+            - login
+      - deploy_486:
+          requires:
+            - login
+      - deploy_571:
+          requires:
+            - login
+      - deploy_580:
+          requires:
+            - login
+      - deploy_593:
+          requires:
+            - login
