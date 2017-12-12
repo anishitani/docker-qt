@@ -21,6 +21,7 @@ do
         QT_FILE=${QT_FILE}".tar.xz"
         QT_URL=$QT_URL'/single/$QT_FILE'
     elif [ ${VERSION:0:2} -gt 46 ]
+    then
         QT_FILE=$QT_FILE".tar.gz"
         QT_URL=$QT_URL'/${QT_VERSION}/$QT_FILE'
     else
