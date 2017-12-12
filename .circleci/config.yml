@@ -71,7 +71,7 @@ workflows:
       - build_593:
           requires:
             - checkout
-      - loing:
+      - login_docker:
           requires:
             - build_453
             - build_486
