@@ -20,6 +20,7 @@ jobs:
             - 5.8.0
             - 5.9.3
     login_docker:
+      <<: *workdir
       steps:
         - rnu: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
     build_453:
@@ -53,23 +54,23 @@ jobs:
               at: .
           - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
     deploy_453:
-        machine: true
+        <<: *workdir
         steps:
           - run: docker push anishitani/docker-qt:4.5.3
     deploy_486:
-        machine: true
+        <<: *workdir
         steps:
           - run: docker push anishitani/docker-qt:4.8.6
     deploy_571:
-        machine: true
+        <<: *workdir
         steps:
           - run: docker push anishitani/docker-qt:5.7.1
     deploy_580:
-        machine: true
+        <<: *workdir
         steps:
           - run: docker push anishitani/docker-qt:5.8.0
     deploy_593:
-        machine: true
+        <<: *workdir
         steps:
           - run: docker push anishitani/docker-qt:5.9.3
 
