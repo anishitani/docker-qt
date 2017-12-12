@@ -4,17 +4,8 @@ jobs:
         machine: true
         steps:
             - checkout
-            - run: chmod +x bootstrap.sh
-            - run: ./bootstrap.sh
-            - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:4.6.4 4.6.4
-            - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
-            - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
-            - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
-            - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
+            - run: python bootstrap.py
+            - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt 5.7.1
+            - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt 5.8.0
+            - run: docker build --build-arg N_PROC=$(nproc) -t anishitani/docker-qt 5.9.3
             - run: docker images
-            - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
-            - run: docker push anishitani/docker-qt:4.6.4
-            - run: docker push anishitani/docker-qt:4.8.6
-            - run: docker push anishitani/docker-qt:5.7.1
-            - run: docker push anishitani/docker-qt:5.8.0
-            - run: docker push anishitani/docker-qt:5.9.3

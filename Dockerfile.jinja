@@ -1,0 +1,32 @@
+FROM {{ BASE_IMAGE }}
+MAINTAINER André Nishitani <atoshio25@gmail.com>
+
+ARG N_JOBS=1
+
+ENV QT_MAJOR {{ QT_VERSION_MAJOR }}
+ENV QT_MINOR {{ QT_VERSION_MINOR }}
+ENV QT_BUILD {{ QT_VERSION_BUILD }}
+ENV QT_VERSION {{ QT_VERSION }}
+
+ENV QT_BASE_DIR /opt/Qt/{{ QT_VERSION }}
+
+ENV PATH $PATH:/opt/Qt/{{ QT_VERSION }}/bin
+ENV LD_LIBRARY_PATH /opt/Qt/{{ QT_VERSION }}/lib:$LD_LIBRARY_PATH
+ENV PKG_CONFIG_PATH /opt/Qt/{{ QT_VERSION }}/lib/pkgconfig:$PKG_CONFIG_PATH
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        {{ QT_DEPENDENCIES }} \
+    && cd /tmp \
+    && wget -nc {{ QT_URL }} \
+    && tar xf {{ QT_FILE }} \
+    && cd /tmp/{{ QT_SOURCE_FOLDER }} \
+    && ./configure -prefix /opt/Qt/{{ QT_VERSION }} \
+        {{ QT_BUILD_OPTIONS }}
+    && make -j${N_JOBS} && make install \
+    && rm -r /tmp/{{ QT_SOURCE_FOLDER }}* \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /
+
+CMD ["qmake","--version"]
