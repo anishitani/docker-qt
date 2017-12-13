@@ -66,18 +66,8 @@ workflows:
   build_test_and_deploy:
     jobs:
       - checkout
-      - build_453:
-          requires:
-            - login_docker
-      - build_486:
-          requires:
-            - login_docker
-      - build_571:
-          requires:
-            - login_docker
-      - build_580:
-          requires:
-            - login_docker
-      - build_593:
-          requires:
-            - login_docker
+      - build_453
+      - build_486
+      - build_571
+      - build_580
+      - build_593
