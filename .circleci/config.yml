@@ -22,7 +22,7 @@ jobs:
   login_docker:
     <<: *workdir
     steps:
-      - rnu: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+      - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
   build_453:
     <<: *workdir
     steps:
