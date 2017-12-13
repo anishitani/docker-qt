@@ -19,100 +19,46 @@ jobs:
             - 5.7.1
             - 5.8.0
             - 5.9.3
-  login_docker:
-    <<: *workdir
-    steps:
-      - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
   build_453:
     <<: *workdir
     steps:
       - attach_workspace:
           at: .
       - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
-      - run: docker save -o anishitani_dockerqt_453 anishitani/docker-qt:4.5.3
-      - persist_to_workspace:
-          root: .
-          paths:
-            - anishitani_dockerqt_453
+      - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+      - run: docker push anishitani/docker-qt:4.5.3
   build_486:
       <<: *workdir
       steps:
         - attach_workspace:
             at: .
         - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
-        - run: docker save -o anishitani_dockerqt_486 anishitani/docker-qt:4.8.6
-        - persist_to_workspace:
-            root: .
-            paths:
-              - anishitani_dockerqt_486
+        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+        - run: docker push anishitani/docker-qt:4.8.6
   build_571:
       <<: *workdir
       steps:
         - attach_workspace:
             at: .
         - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
-        - run: docker save -o anishitani_dockerqt_571 anishitani/docker-qt:5.7.1
-        - persist_to_workspace:
-            root: .
-            paths:
-              - anishitani_dockerqt_571
+        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+        - run: docker push anishitani/docker-qt:5.7.1
   build_580:
       <<: *workdir
       steps:
         - attach_workspace:
             at: .
         - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
-        - run: docker save -o anishitani_dockerqt_580 anishitani/docker-qt:5.8.0
-        - persist_to_workspace:
-            root: .
-            paths:
-              - anishitani_dockerqt_580
+        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+        - run: docker push anishitani/docker-qt:5.8.0
   build_593:
       <<: *workdir
       steps:
         - attach_workspace:
             at: .
         - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
-        - run: docker save -o anishitani_dockerqt_593 anishitani/docker-qt:5.9.3
-        - persist_to_workspace:
-            root: .
-            paths:
-              - anishitani_dockerqt_593
-  deploy_453:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker load -i anishitani_dockerqt_453
-        - run: docker push anishitani/docker-qt:4.5.3
-  deploy_486:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker load -i anishitani_dockerqt_486
-        - run: docker push anishitani/docker-qt:4.8.6
-  deploy_571:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker load -i anishitani_dockerqt_571
-        - run: docker push anishitani/docker-qt:5.7.1
-  deploy_580:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker load -i anishitani_dockerqt_580
-        - run: docker push anishitani/docker-qt:5.8.0
-  deploy_593:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker load -i anishitani_dockerqt_593
-        - run: docker push anishitani/docker-qt:5.9.3
+        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+        - run: docker push anishitani/docker-qt:5.9.0
 
 
 workflows:
@@ -122,38 +68,16 @@ workflows:
       - checkout
       - build_453:
           requires:
-            - checkout
+            - login_docker
       - build_486:
           requires:
-            - checkout
+            - login_docker
       - build_571:
           requires:
-            - checkout
+            - login_docker
       - build_580:
           requires:
-            - checkout
+            - login_docker
       - build_593:
-          requires:
-            - checkout
-      - login_docker:
-          requires:
-            - build_453
-            - build_486
-            - build_571
-            - build_580
-            - build_593
-      - deploy_453:
-          requires:
-            - login_docker
-      - deploy_486:
-          requires:
-            - login_docker
-      - deploy_571:
-          requires:
-            - login_docker
-      - deploy_580:
-          requires:
-            - login_docker
-      - deploy_593:
           requires:
             - login_docker
