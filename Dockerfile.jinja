@@ -27,6 +27,6 @@ RUN apt-get update \
     && rm -r /tmp/{{ QT_SOURCE_FOLDER }}* \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /
+WORKDIR /root
 
 CMD ["qmake","--version"]
