@@ -66,8 +66,18 @@ workflows:
   build_test_and_deploy:
     jobs:
       - checkout
-      - build_453
-      - build_486
-      - build_571
-      - build_580
-      - build_593
+      - build_453:
+          requires:
+            - checkout
+      - build_486:
+          requires:
+            - checkout
+      - build_571:
+          requires:
+            - checkout
+      - build_580:
+          requires:
+            - checkout
+      - build_593:
+          requires:
+            - checkout
