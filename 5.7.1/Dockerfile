@@ -18,8 +18,8 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         build-essential wget libgl1-mesa-dev libglu1-mesa-dev \
     && cd /tmp \
-    && wget -nv -nc https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.gz \
-    && tar xf qt-everywhere-opensource-src-5.7.1.tar.gz \
+    && wget -nv -nc https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.xz \
+    && tar xf qt-everywhere-opensource-src-5.7.1.tar.xz \
     && cd /tmp/qt-everywhere-opensource-src-5.7.1 \
     && ./configure -prefix /opt/Qt/5.7.1 \
         -release -opensource -confirm-license -shared -no-qml-debug -nomake examples -opengl -qt-xcb \
@@ -27,6 +27,6 @@ RUN apt-get update \
     && rm -r /tmp/qt-everywhere-opensource-src-5.7.1* \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /
+WORKDIR /root
 
 CMD ["qmake","--version"]

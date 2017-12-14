@@ -27,6 +27,6 @@ RUN apt-get update \
     && rm -r /tmp/qt-embedded-linux-opensource-src-4.5.3* \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /
+WORKDIR /root
 
 CMD ["qmake","--version"]

@@ -81,10 +81,16 @@ def main():
             url="https://download.qt.io/archive/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz"
         ),
         VersionConfiguration(
+            version=Version(5,6,3),
+            dependencies="build-essential wget libgl1-mesa-dev libglu1-mesa-dev",
+            options="-release -opensource -confirm-license -shared -no-qml-debug -nomake examples -opengl -qt-xcb",
+            url="https://download.qt.io/archive/qt/5.6/5.6.3/single/qt-everywhere-opensource-src-5.6.3.tar.xz"
+        ),
+        VersionConfiguration(
             version=Version(5,7,1),
             dependencies="build-essential wget libgl1-mesa-dev libglu1-mesa-dev",
             options="-release -opensource -confirm-license -shared -no-qml-debug -nomake examples -opengl -qt-xcb",
-            url="https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.gz"
+            url="https://download.qt.io/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.xz"
         ),
         VersionConfiguration(
             version=Version(5,8,0),

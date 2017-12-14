@@ -27,6 +27,6 @@ RUN apt-get update \
     && rm -r /tmp/qt-everywhere-opensource-src-5.9.3* \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /
+WORKDIR /root
 
 CMD ["qmake","--version"]
