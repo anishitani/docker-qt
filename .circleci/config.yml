@@ -16,6 +16,7 @@ jobs:
           paths:
             - 4.5.3
             - 4.8.6
+            - 5.6.3
             - 5.7.1
             - 5.8.0
             - 5.9.3
@@ -35,6 +36,14 @@ jobs:
         - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
         - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
         - run: docker push anishitani/docker-qt:4.8.6
+  build_563:
+      <<: *workdir
+      steps:
+        - attach_workspace:
+            at: .
+        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.6.3 5.6.3
+        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
+        - run: docker push anishitani/docker-qt:5.6.3
   build_571:
       <<: *workdir
       steps:
