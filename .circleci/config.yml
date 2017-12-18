@@ -25,50 +25,104 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.5.3 4.5.3
-      - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
-      - run: docker push anishitani/docker-qt:4.5.3
+      - run:
+          environment:
+            - QT_VERSION: 4.5.3
+          command: |
+            docker build -t anishitani/docker-qt:$QT_VERSION $QT_VERSION
+            docker save -o ${QT_VERSION}/container.tar anishitani/docker-qt:$QT_VERSION
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 4.5.3
   build_486:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:4.8.6 4.8.6
-        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
-        - run: docker push anishitani/docker-qt:4.8.6
+    <<: *workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          environment:
+            - QT_VERSION: 4.8.6
+          command: |
+            docker build -t anishitani/docker-qt:$QT_VERSION $QT_VERSION
+            docker save -o ${QT_VERSION}/container.tar anishitani/docker-qt:$QT_VERSION
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 4.8.6
   build_563:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.6.3 5.6.3
-        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
-        - run: docker push anishitani/docker-qt:5.6.3
+    <<: *workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          environment:
+            - QT_VERSION: 5.6.3
+          command: |
+            docker build -t anishitani/docker-qt:$QT_VERSION $QT_VERSION
+            docker save -o ${QT_VERSION}/container.tar anishitani/docker-qt:$QT_VERSION
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 5.6.3
   build_571:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.7.1 5.7.1
-        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
-        - run: docker push anishitani/docker-qt:5.7.1
+    <<: *workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          environment:
+            - QT_VERSION: 5.7.1
+          command: |
+            docker build -t anishitani/docker-qt:$QT_VERSION $QT_VERSION
+            docker save -o ${QT_VERSION}/container.tar anishitani/docker-qt:$QT_VERSION
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 5.7.1
   build_580:
-      <<: *workdir
-      steps:
-        - attach_workspace:
-            at: .
-        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.8.0 5.8.0
-        - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
-        - run: docker push anishitani/docker-qt:5.8.0
+    <<: *workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          environment:
+            - QT_VERSION: 5.8.0
+          command: |
+            docker build -t anishitani/docker-qt:$QT_VERSION $QT_VERSION
+            docker save -o ${QT_VERSION}/container.tar anishitani/docker-qt:$QT_VERSION
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 5.8.0
   build_593:
+    <<: *workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          environment:
+            - QT_VERSION: 5.9.3
+          command: |
+            docker build -t anishitani/docker-qt:$QT_VERSION $QT_VERSION
+            docker save -o ${QT_VERSION}/container.tar anishitani/docker-qt:$QT_VERSION
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 5.9.3
+  deploy:
       <<: *workdir
       steps:
         - attach_workspace:
             at: .
-        - run: docker build --build-arg N_JOBS=$(nproc) -t anishitani/docker-qt:5.9.3 5.9.3
         - run: docker login -u $DOCKER_API_USER -p $DOCKER_API_KEY
-        - run: docker push anishitani/docker-qt:5.9.3
-
+        - run:
+            command: |
+              for QT_VERSION in "4.5.3" "4.8.6" "5.6.3" "5.7.1" "5.8.0" "5.9.3"
+              do
+                docker load -i $QT_VERSION/container.tar
+                docker push anishitani/docker-qt:$QT_VERSION
+              done
 
 workflows:
   version: 2
@@ -81,6 +135,9 @@ workflows:
       - build_486:
           requires:
             - checkout
+      - build_563:
+          requires:
+            - checkout
       - build_571:
           requires:
             - checkout
@@ -90,3 +147,11 @@ workflows:
       - build_593:
           requires:
             - checkout
+      - deploy:
+          requires:
+            - build_453
+            - build_486
+            - build_563
+            - build_571
+            - build_580
+            - build_593
